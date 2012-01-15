@@ -76,3 +76,8 @@ exports.runJasmine = function (jasmine, specFolder) {
         junitreport);
 
 }
+
+exports.loadWithJasmine = function (jasmine, filePath) {
+    var src = require('fs').readFileSync(filePath);
+    require('vm').runInThisContext(src);
+}

@@ -7,12 +7,16 @@ task('runspecs', [], function () {
     if (!process.env.NODE_ENV) process.env.NODE_ENV = 'test';
     
     jasmineHelper.loadJsDomAndJQuery(function (window) {
-        global.theWindow = window;
-        global.$ = window.jQuery;
-        
         var jasmine = require('jasmine-node/lib/jasmine-node/index');
-        var specFolder =  'spec';
-        jasmineHelper.runJasmine(jasmine, specFolder);
+        
+        // jasmine-node deletes global.window, so we must set it after loading jasmine-node
+        
+        global.window = window;
+        global.$ = window.jQuery;
+        global.jQuery = window.jQuery;
+        
+        jasmineHelper.loadWithJasmine(jasmine, __dirname + '/lib/jasmine-jquery/lib/jasmine-jquery.js');
+        jasmineHelper.runJasmine(jasmine, 'spec');
         complete();
     });
 }, true);
