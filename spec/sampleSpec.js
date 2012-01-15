@@ -3,3 +3,10 @@ describe('just a sample without html to get started', function () {
         expect(1 + 1).toBe(2);
     });
 });
+
+describe('jQuery variable', function () {
+    it ('should be defined', function () {
+        expect($).toBeDefined();
+    });
+});
+
