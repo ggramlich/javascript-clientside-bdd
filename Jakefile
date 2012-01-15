@@ -8,7 +8,7 @@ task('runspecs', [], function () {
     var specFolder =  'spec';
     process.argv.push(specFolder);
     loadJsDomAndJQuery(function (window) {
-        global.window = window;
+        global.theWindow = window;
         global.$ = window.jQuery;
         
         require('jasmine-node/lib/jasmine-node/cli.js');
@@ -21,11 +21,9 @@ function loadJsDomAndJQuery(callback) {
     
     jsdom.env({
         html: "<html><body></body></html>",
+        documentRoot: __dirname,
         scripts: [
-            // TODO: find a way to use local jquery
-            // (maybe the node-jQuery package)
-            // TODO: load jasmine-jquery.js
-            'http://code.jquery.com/jquery-1.5.min.js'
+            'lib/jquery/jquery-1.7.1.js',
         ]
     }, function (err, window) {
         callback(window);
