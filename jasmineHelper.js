@@ -14,7 +14,7 @@ exports.loadJsDomAndJQuery = function (callback) {
     });
 }
 
-exports.runJasmine = function (jasmine, specFolder) {
+exports.runJasmine = function (jasmine, specFolder, callOnExit) {
     var util,
         Path= require('path');
     try {
@@ -49,7 +49,7 @@ exports.runJasmine = function (jasmine, specFolder) {
 
     function onExit() {
         process.removeListener("exit", onExit);
-        process.exit(exitCode);
+        callOnExit();
     }
     
     var onComplete = function(runner, log) {

@@ -16,8 +16,7 @@ task('runspecs', [], function () {
         global.jQuery = window.jQuery;
         
         jasmineHelper.loadWithJasmine(jasmine, __dirname + '/lib/jasmine-jquery/lib/jasmine-jquery.js');
-        jasmineHelper.runJasmine(jasmine, 'spec');
-        complete();
+        jasmineHelper.runJasmine(jasmine, 'spec', complete);
     });
 }, true);
 
