@@ -5,9 +5,10 @@
     "engines": {"node": ">= 0.4.0"},
     "author": "Gregor Gramlich / Kim Hagedorn",
     "dependencies": {
-	},
-	"devDependencies": {
-		"jasmine-node": "1.0.17",
-        "jsdom": "0.2.10"
-	}
+    },
+    "devDependencies": {
+        "jasmine-node": "1.0.x",
+        "jsdom": "0.2.x",
+        "jake": "0.2.x"
+    }
 }
