@@ -1,0 +1,13 @@
+{
+    "name": "javascript-clientside-tdd",
+    "description": "A basic environment to run clientside jasmine tests with jasmine-node or jasmine in the browser",
+    "version": "0.0.1",
+    "engines": {"node": ">= 0.4.0"},
+    "author": "Gregor Gramlich / Kim Hagedorn",
+    "dependencies": {
+	},
+	"devDependencies": {
+		"jasmine-node": "1.0.17",
+        "jsdom": "0.2.10"
+	}
+}
