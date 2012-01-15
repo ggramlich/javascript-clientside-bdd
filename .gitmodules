@@ -1,0 +1,3 @@
+[submodule "lib/jasmine-jquery"]
+	path = lib/jasmine-jquery
+	url = https://github.com/velesin/jasmine-jquery.git
