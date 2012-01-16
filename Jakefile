@@ -3,7 +3,7 @@ task('default', ['runspecs']);
 
 desc('Run all jasmine specs from the spec folder');
 task('runspecs', [], function () {
-    var jasmineHelper = require('./jasmineHelper');
+    var jasmineHelper = require('./node_base/jasmineHelper');
     if (!process.env.NODE_ENV) process.env.NODE_ENV = 'test';
     
     jasmineHelper.loadJsDomAndJQuery(function (window) {
@@ -15,7 +15,8 @@ task('runspecs', [], function () {
         global.$ = window.jQuery;
         global.jQuery = window.jQuery;
         
-        jasmineHelper.loadWithJasmine(jasmine, __dirname + '/lib/jasmine-jquery/lib/jasmine-jquery.js');
+        jasmine = jasmineHelper.loadWithJasmine(jasmine, __dirname + '/lib/jasmine-jquery/lib/jasmine-jquery.js');
+        jasmineHelper.modifyFixtureLoader(jasmine);
         jasmineHelper.runJasmine(jasmine, 'spec', complete);
     });
 }, true);

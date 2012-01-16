@@ -18,3 +18,14 @@ describe('jQuery object from html snippet', function () {
     });
 });
 
+describe('fixture loading', function () {
+    beforeEach(function () {
+        jasmine.getFixtures().fixturesPath = '../html_fixtures';
+    });
+
+    it('should load a fixture from the fixtures folder', function () {
+        expect($('#some-sample-fixture-div')).not.toExist();
+        loadFixtures('sampleFixture.html');
+        expect($('#some-sample-fixture-div')).toExist();
+    });
+});

@@ -1,11 +1,12 @@
-var jQueryPath = 'lib/jquery/jquery-1.7.1.js';
+var DOCUMENT_ROOT = __dirname + '/';
+var jQueryPath = '../lib/jquery/jquery-1.7.1.js';
 
 exports.loadJsDomAndJQuery = function (callback) {
     var jsdom = require('jsdom');
     
     jsdom.env({
         html: "<html><body></body></html>",
-        documentRoot: __dirname,
+        documentRoot: DOCUMENT_ROOT,
         scripts: [
             jQueryPath,
         ]
@@ -79,5 +80,13 @@ exports.runJasmine = function (jasmine, specFolder, callOnExit) {
 
 exports.loadWithJasmine = function (jasmine, filePath) {
     var src = require('fs').readFileSync(filePath);
-    require('vm').runInThisContext(src);
+    return require('vm').runInThisContext(src + "\njasmine");
+}
+
+exports.modifyFixtureLoader = function (jasmine) {
+    jasmine.Fixtures.prototype.loadFixtureIntoCache_ = function(relativeUrl) {
+        var url = this.fixturesPath.match('/$') ? this.fixturesPath + relativeUrl : this.fixturesPath + '/' + relativeUrl;
+        var data = require('fs').readFileSync(DOCUMENT_ROOT + url);
+        this.fixturesCache_[relativeUrl] = data;
+    };
 }
