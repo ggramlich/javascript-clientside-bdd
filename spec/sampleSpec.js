@@ -30,9 +30,6 @@ describe('fixture handling', function () {
     });
     
     it('should apply some function', function () {
-        function makeToggler ($toggler, $toBeToggled) {
-            $toggler.click(function () {$toBeToggled.toggle();});
-        }
         loadFixtures('sampleFixture.html');
         makeToggler($('#visibility-toggler'), $('#some-sample-fixture-div'));
         expect($('#some-sample-fixture-div')).toBeVisible();

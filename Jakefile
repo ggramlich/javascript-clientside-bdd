@@ -3,12 +3,15 @@ task('default', ['runspecs']);
 
 desc('Run all jasmine specs from the spec folder');
 task('runspecs', [], function () {
+    var scripts = [
+        '../lib/jasmine-jquery/lib/jasmine-jquery.js',
+        '../javascript/sampleCode.js'
+    ];
+
     var jasmineHelper = require('./node_base/jasmineHelper');
     if (!process.env.NODE_ENV) process.env.NODE_ENV = 'test';
     
-    var scripts = ['../lib/jquery/jquery-1.7.1.js'];
-    
-    jasmineHelper.loadJsDomAndJQuery(scripts, function (window) {
+    jasmineHelper.loadJsDomAndJQuery(['../lib/jquery/jquery-1.7.1.js'], function (window) {
         global.jasmine = require('jasmine-node/lib/jasmine-node/index');
         
         // jasmine-node deletes global.window, so we must set it after loading jasmine-node
@@ -17,7 +20,9 @@ task('runspecs', [], function () {
         global.$ = window.jQuery;
         global.jQuery = window.jQuery;
         
-        jasmineHelper.loadInContext('../lib/jasmine-jquery/lib/jasmine-jquery.js');
+        scripts.forEach(function (script) {
+            jasmineHelper.loadInContext(script);
+        });
         
         jasmineHelper.setJQueryMatchers();
         
