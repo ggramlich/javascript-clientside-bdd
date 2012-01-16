@@ -18,7 +18,7 @@ describe('jQuery object from html snippet', function () {
     });
 });
 
-describe('fixture loading', function () {
+describe('fixture handling', function () {
     beforeEach(function () {
         jasmine.getFixtures().fixturesPath = '../html_fixtures';
     });
@@ -27,5 +27,18 @@ describe('fixture loading', function () {
         expect($('#some-sample-fixture-div')).not.toExist();
         loadFixtures('sampleFixture.html');
         expect($('#some-sample-fixture-div')).toExist();
+    });
+    
+    it('should apply some function', function () {
+        function makeToggler ($toggler, $toBeToggled) {
+            $toggler.click(function () {$toBeToggled.toggle();});
+        }
+        loadFixtures('sampleFixture.html');
+        makeToggler($('#visibility-toggler'), $('#some-sample-fixture-div'));
+        expect($('#some-sample-fixture-div')).toBeVisible();
+        $('#visibility-toggler').click();
+        expect($('#some-sample-fixture-div')).not.toBeVisible();
+        $('#visibility-toggler').click();
+        expect($('#some-sample-fixture-div')).toBeVisible();
     });
 });

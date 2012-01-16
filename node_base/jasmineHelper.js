@@ -1,15 +1,13 @@
 var DOCUMENT_ROOT = __dirname + '/';
-var jQueryPath = '../lib/jquery/jquery-1.7.1.js';
+var jQueryMatchersPath = '../lib/jasmine-node-jquery-matchers';
 
-exports.loadJsDomAndJQuery = function (callback) {
+exports.loadJsDomAndJQuery = function (scripts, callback) {
     var jsdom = require('jsdom');
     
     jsdom.env({
         html: "<html><body></body></html>",
         documentRoot: DOCUMENT_ROOT,
-        scripts: [
-            jQueryPath,
-        ]
+        scripts: scripts
     }, function (err, window) {
         callback(window);
     });
@@ -78,9 +76,9 @@ exports.runJasmine = function (jasmine, specFolder, callOnExit) {
 
 }
 
-exports.loadWithJasmine = function (jasmine, filePath) {
-    var src = require('fs').readFileSync(filePath);
-    return require('vm').runInThisContext(src + "\njasmine");
+exports.loadInContext = function (filePath) {
+    var src = require('fs').readFileSync(DOCUMENT_ROOT + filePath);
+    require('vm').runInThisContext(src);
 }
 
 exports.modifyFixtureLoader = function (jasmine) {
@@ -89,4 +87,12 @@ exports.modifyFixtureLoader = function (jasmine) {
         var data = require('fs').readFileSync(DOCUMENT_ROOT + url);
         this.fixturesCache_[relativeUrl] = data;
     };
+}
+
+exports.setJQueryMatchers = function () {
+    var jqm = require(jQueryMatchersPath);
+    jqm.options.jQuery = window.jQuery;
+    beforeEach(function() {
+        this.addMatchers(jqm.matchers);
+    });
 }
