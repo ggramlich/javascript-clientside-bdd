@@ -2,15 +2,9 @@ var DOCUMENT_ROOT = __dirname + '/';
 var jQueryMatchersPath = '../lib/jasmine-node-jquery-matchers';
 
 exports.loadJsDomAndJQuery = function (scripts, callback) {
-    var jsdom = require('jsdom');
-    
-    jsdom.env({
-        html: "<html><body></body></html>",
-        documentRoot: DOCUMENT_ROOT,
-        scripts: scripts
-    }, function (err, window) {
-        callback(window);
-    });
+    window = require('jsdom').jsdom().createWindow();
+    require('jQuery').create(window);
+    return window;
 }
 
 exports.runJasmine = function (jasmine, specFolder, callOnExit) {
