@@ -1,25 +1,32 @@
 function Spreeder($div){
-    var currentChunk = 0;
     var self = this;
+    
+    var currentChunk = 0;
+    var chunks;
+    var intervalTimerId;
+    
     this.getSpreederDiv = function () {
         return $div;
     };
     
     this.setText = function(text) {
-        this.text = text;
+        chunks = text.split(' ');
         this.displayCurrentChunk();
     };
     
     this.start = function () {
-        setInterval(this.advance, 1000);
+        intervalTimerId = setInterval(this.advance, 1000);
     };
     this.advance = function(){
         currentChunk++;
         self.displayCurrentChunk();
+        
+        if(currentChunk == chunks.length)
+            clearInterval(intervalTimerId);
     };
     
     this.displayCurrentChunk = function(){
-        var currentWord = this.text.split(' ')[currentChunk];
+        var currentWord = chunks[currentChunk];
         $div.text(currentWord);
     };
 }

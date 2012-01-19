@@ -41,7 +41,7 @@ describe('spreeder object', function(){
         expect(spreeder.getSpreederDiv()).toBe($theDiv);
         
         spreeder.setText('Wort');
-        expect($theDiv).toHaveText('Wort');        
+        expect($theDiv).toHaveText('Wort');
     });
     
     it('should advance after an interval after start', function(){
@@ -50,13 +50,29 @@ describe('spreeder object', function(){
         expect(setInterval).toHaveBeenCalledWith(spreeder.advance, 1000);
     });
     
+    it('should end the interval timer at the end of the text', function(){
+        spreeder.setText("Lorem ipsum dolor")
+        
+        var timerId = 12345;
+        setInterval = jasmine.createSpy('startInterval').andReturn(timerId);
+        clearInterval = jasmine.createSpy('stopInterval');
+        
+        spreeder.start();
+        
+        spreeder.advance();
+        spreeder.advance();
+        
+        
+        expect(clearInterval).not.toHaveBeenCalled();
+        spreeder.advance();
+        expect(clearInterval).toHaveBeenCalledWith(timerId);
+    });
 });
 
 describe('spreeder page', function() {
-    
     beforeEach(function () {
-        jasmine.getFixtures().fixturesPath = '../html_fixtures';
-        loadFixtures('../html/spreederContent.html');
+        jasmine.getFixtures().fixturesPath = '../html';
+        loadFixtures('spreederContent.html');
     });
     
     it('should have a spreeder object with the right div', function () {
