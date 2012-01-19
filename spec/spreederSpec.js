@@ -67,25 +67,57 @@ describe('spreeder object', function(){
         spreeder.advance();
         expect(clearInterval).toHaveBeenCalledWith(timerId);
     });
+    
+    it('should set the reading speed according to the defined wordsPerMinute-setting', function(){
+        spreeder.setWordsPerMinute(100);
+        expect(spreeder.readingSpeed()).toBe(600);
+        
+        spreeder.setWordsPerMinute(300);
+        expect(spreeder.readingSpeed()).toBe(200);
+    });
+    
+    it('should reset the interval timer when the wordsPerMinute-setting has changed', function(){
+        spreeder.setText('Dolor sit amet');
+        spreeder.setWordsPerMinute(100);
+        
+        spreeder.start();
+        
+        setInterval = jasmine.createSpy('setInterval');
+        clearInterval = jasmine.createSpy('clearInterval');
+        
+        spreeder.advance();
+        spreeder.setWordsPerMinute(200);
+        
+        expect(clearInterval).toHaveBeenCalled;
+        expect(setInterval).toHaveBeenCalledWith(jasmine.any(Function), 300);
+    });
+    
+    it('should halt the timer on pause', function(){
+        spreeder.setText('Dolor sit amet');
+        clearInterval = jasmine.createSpy('clearInterval');
+        
+        spreeder.start();
+        
+        expect(clearInterval).not.toHaveBeenCalled;
+        spreeder.pause();
+        expect(clearInterval).toHaveBeenCalled;
+    });
+    
+    it('should continue at the current word on unpause', function(){
+        spreeder.setText('Dolor sit amet');
+        clearInterval = jasmine.createSpy('clearInterval');
+        
+        spreeder.start();
+        spreeder.advance();
+        
+        spreeder.pause();
+        
+        startInterval = jasmine.createSpy('startInterval');
+        
+        spreeder.unpause();
+        spreeder.advance();
+        
+        expect(startInterval).toHaveBeenCalled;
+        expect(spreeder.getCurrentChunkIndex()).toBe(2);
+    });
 });
-
-describe('spreeder page', function() {
-    beforeEach(function () {
-        jasmine.getFixtures().fixturesPath = '../html';
-        loadFixtures('spreederContent.html');
-    });
-    
-    it('should have a spreeder object with the right div', function () {
-        initPage();
-        expect(spreeder.getSpreederDiv()).toBe('#spreederWindow');
-    });
-    
-    it('should start the spreeder on a click of the start button', function(){
-        initPage();
-        spyOn(spreeder, 'start');
-        $('#startButton').click();
-        expect(spreeder.start).toHaveBeenCalled();
-    });
-    
-});
-
