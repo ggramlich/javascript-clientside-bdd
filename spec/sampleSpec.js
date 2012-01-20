@@ -33,9 +33,17 @@ describe('fixture handling', function () {
         loadFixtures('sampleFixture.html');
         makeToggler($('#visibility-toggler'), $('#some-sample-fixture-div'));
         expect($('#some-sample-fixture-div')).toBeVisible();
-        $('#visibility-toggler').click();
-        expect($('#some-sample-fixture-div')).not.toBeVisible();
-        $('#visibility-toggler').click();
-        expect($('#some-sample-fixture-div')).toBeVisible();
+        
+        waits(1000);
+        runs(function() {
+            $('#visibility-toggler').click();
+            expect($('#some-sample-fixture-div')).not.toBeVisible();
+        });
+        waits(1000);
+        runs(function() {
+            $('#visibility-toggler').click();
+            expect($('#some-sample-fixture-div')).toBeVisible();
+        });
+        waits(1000);
     });
 });
