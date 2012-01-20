@@ -69,5 +69,24 @@ initPage = function () {
         
     $('#startButton').click(function(){
         spreeder.start();
+        $('#pauseButton').removeAttr("disabled");
+    });
+    
+    $('#pauseButton').click(function(){
+        var button = $('#pauseButton');
+        if(button.text() == ('Pause')){
+            button.text('Unpause');
+            spreeder.pause();
+        } else {
+            button.text('Pause');
+            spreeder.unpause();
+        }
+    });
+    
+    $('#optionsButton').click(function(){
+        var options = $('#options');
+        if(options.css('visiblity') == 'hidden'){
+            options.css('visibility', 'visible');
+        }
     });
 };
